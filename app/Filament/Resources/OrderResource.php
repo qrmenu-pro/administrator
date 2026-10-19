@@ -152,7 +152,7 @@ class OrderResource extends Resource
                         'approved' => '✅ Approved',
                         'rejected' => '❌ Rejected',
                     ]),
-                
+             
                 Tables\Filters\SelectFilter::make('payment_method')
                     ->label('Metode Pembayaran')
                     ->options([
@@ -162,6 +162,23 @@ class OrderResource extends Resource
                     ]),
             ])
             ->actions([
+                // Tombol Kirim WhatsApp (Opsi 1 - Gratis)
+                Tables\Actions\Action::make('sendWhatsApp')
+                    ->label('Kirim WA')
+                    ->icon('heroicon-o-chat-bubble-left-right')
+                    ->color('success')
+                    ->url(function (Order $record) {
+                        $phone = $record->phone ?? ''; 
+                        $nama = $record->customer_name ?? 'Tamu';
+                        $total = number_format($record->total_harga ?? 0, 0, ',', '.');
+                        
+                        $pesan = "Halo Kak *{$nama}*, terima kasih banyak sudah berkunjung dan melakukan pembayaran di KEDAICKCK! 🙏✨\n\nTotal Pembayaran: *Rp {$total}*\n\nPesanan Anda sedang disiapkan oleh tim dapur kami. Selamat menikmati hidangan dan semoga hari Anda menyenangkan! ☕🍔";
+                        
+                        $encodedPesan = urlencode($pesan);
+                        
+                        return "https://wa.me/{$phone}?text={$encodedPesan}";
+                    }, shouldOpenInNewTab: true),
+
                 // Lihat Invoice
                 Tables\Actions\Action::make('lihat_invoice')
                     ->label('Invoice')
