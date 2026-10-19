@@ -10,11 +10,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class SalesDashboard extends Page
 {
     protected static ?string $navigationIcon  = 'heroicon-o-chart-bar';
-    protected static string $view             = 'filament.pages.sales-dashboard';
-    protected static ?string $title           = 'Dasbor Penjualan';
+    protected static string $view            = 'filament.pages.sales-dashboard';
+    protected static ?string $title          = 'QRMenu-Pro';
     protected static ?string $navigationLabel = 'Laporan Penjualan';
-    protected static ?int $navigationSort     = -1;
-    protected static string $routePath        = '/'; // Set as root path
+    protected static ?int $navigationSort      = -1;
+    protected static string $routePath         = '/'; // Set as root path
 
     public $totalOrder;
     public $totalPendapatan;

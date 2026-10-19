@@ -241,7 +241,7 @@
     <div class="dashboard-container">
         <!-- Header Dashboard -->
         <div class="text-center mb-8">
-            <h1 class="section-title">🏪 Dashboard Penjualan Kedai CKCK</h1>
+            <h1 class="section-title">🏪 Dashboard Penjualan QRMenu-Pro</h1>
             <p class="text-gray-600">Pantau performa penjualan dan statistik bisnis Anda</p>
         </div>
 
@@ -260,16 +260,6 @@
                 📊 Keseluruhan
             </button>
         </div>
-
-        <!-- Export Buttons -->
-        {{-- <div class="export-buttons">
-            <a href="#" class="export-btn pdf">
-                📄 Export PDF
-            </a>
-            <a href="#" class="export-btn excel">
-                📊 Export Excel
-            </a>
-        </div> --}}
 
         <!-- Laporan Harian -->
         <div id="stats-harian" class="stats-period active">
@@ -371,16 +361,6 @@
         <div class="table-container">
             <h2 class="section-title">📋 Laporan Penjualan Detail</h2>
             
-            <!-- Export Buttons untuk tabel -->
-            {{-- <div class="export-buttons">
-                <a href="#" class="export-btn pdf" onclick="exportTableToPDF()">
-                    📄 Export PDF
-                </a>
-                <a href="#" class="export-btn excel" onclick="exportTableToExcel()">
-                    📊 Export Excel
-                </a>
-            </div> --}}
-
             <!-- Filter tanggal -->
             <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6 p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-200">
                 <div class="flex-1">
@@ -425,7 +405,6 @@
                                     {{ ucfirst($order->status_makanan) }}
                                 </span>
                             </td>
-                           
                         </tr>
                         @endforeach
                     </tbody>
@@ -602,15 +581,11 @@
 
         // Fungsi untuk mengganti periode laporan
         function showPeriod(period) {
-            // Sembunyikan semua periode
             document.querySelectorAll('.stats-period').forEach(el => {
                 el.classList.remove('active');
             });
-            
-            // Tampilkan periode yang dipilih
             document.getElementById('stats-' + period).classList.add('active');
             
-            // Update status tab
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -667,11 +642,10 @@
                 function(settings, data, dataIndex) {
                     var min = $('#minDate').val();
                     var max = $('#maxDate').val();
-                    var date = data[1]; // Kolom tanggal (index 1)
+                    var date = data[1];
                     
                     if (!min && !max) return true;
                     
-                    // Convert date format from d/m/Y H:i to comparable format
                     var dateParts = date.split(' ')[0].split('/');
                     var dateFormatted = dateParts[2] + '-' + dateParts[1].padStart(2, '0') + '-' + dateParts[0].padStart(2, '0');
                     
@@ -687,28 +661,16 @@
                 }
             );
 
-            // Date filter events
             $('#minDate, #maxDate').change(function() {
                 $('#salesTable').DataTable().draw();
             });
 
-            // Reset filter
             $('#resetFilter').click(function() {
                 $('#minDate, #maxDate').val('');
                 $('#salesTable').DataTable().draw();
             });
         });
 
-        // Fungsi export manual
-        function exportTableToPDF() {
-            $('#salesTable').DataTable().button('.buttons-pdf').trigger();
-        }
-
-        function exportTableToExcel() {
-            $('#salesTable').DataTable().button('.buttons-excel').trigger();
-        }
-
-        // Animasi loading saat halaman dimuat
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.stats-card');
             cards.forEach((card, index) => {
@@ -721,66 +683,22 @@
                 }, index * 150);
             });
 
-            // Set periode harian sebagai default
             showPeriod('harian');
         });
-
-        // Update waktu real-time (opsional)
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
-
-        // Update setiap detik
-        setInterval(updateTime, 1000);
     </script>
 
     <style>
-        /* Custom DataTables styling */
         .dataTables_wrapper .dataTables_filter {
             float: right;
             text-align: right;
             margin-bottom: 1rem;
         }
-
         .dataTables_wrapper .dataTables_filter input {
             border: 2px solid #e5e7eb;
             border-radius: 0.5rem;
             padding: 0.5rem 1rem;
             margin-left: 0.5rem;
-            transition: border-color 0.3s ease;
         }
-
-        .dataTables_wrapper .dataTables_filter input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .dataTables_wrapper .dataTables_length select {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            margin: 0 0.5rem;
-        }
-
-        .dataTables_wrapper .dataTables_info {
-            padding-top: 1rem;
-            font-weight: 600;
-            color: #4b5563;
-        }
-
-        .dataTables_wrapper .dataTables_paginate {
-            padding-top: 1rem;
-        }
-
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             border-radius: 0.5rem;
             margin: 0 0.25rem;
@@ -788,35 +706,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white !important;
             border: none;
-            transition: all 0.3s ease;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.6);
-        }
-
-        .dt-buttons {
-            margin-bottom: 1rem;
-        }
-
-        .dt-buttons .dt-button {
-            margin-right: 0.5rem;
-            border: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .dt-buttons .dt-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
     </style>
 </x-filament::page>
